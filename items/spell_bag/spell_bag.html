@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Bag of Scrambled Spells</h1>
+
+<p>
+    This item allows its wearer to cast new spells by creating runes of variying quality, that can be used to spell words.
+</p>
+
+<button type="button" onclick="rolld4()">Roll one d4.</button>
+
+<p id="writable">Put results here.</p>
+
+<script>
+function rolld4() {
+    let result = Math.floor(Math.random() * 4) + 1;
+    document.getElementById("writable").innerHTML = "You rolled: " + result + "!";
+}
+</script>
+
+</body>
+
+<footer>
+    This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+</footer>
+</html>
