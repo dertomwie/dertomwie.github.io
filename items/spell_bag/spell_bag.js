@@ -63,7 +63,7 @@ function rollRunes() {
         let quality = rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus;
 
         let firstRune = document.createElement("div");
-        firstRune.innerHTML = letter + quality;
+        firstRune.innerText = letter + quality;
         firstRune.draggable = "true";
         firstRune.id = "drag_item" + id;
         id += 1;
@@ -88,13 +88,13 @@ function allowDrop(e) {
 }
 
 function drag(e) {
-    document.getElementById("writable").innerHTML = "dragstart ";
+    document.getElementById("writable").innerHTML = "dragstart " + e.target.id;
     e.dataTransfer.setData("id", e.target.id);
 }
 
 function drop(e) {
     e.preventDefault();
     let data = e.dataTransfer.getData("id");
-    document.getElementById("writable").innerHTML.concat("dropped " + data);
-    e.target.appendChild(document.getElementById(data));
+    document.getElementById("writable").innerHTML ="dropped " + data + " into " + e.target.id;
+    e.target.appendChild(target);
 }
