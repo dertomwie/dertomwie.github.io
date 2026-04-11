@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <link rel="stylesheet" href="/items/item_styling.css">
+</head>
+
 <body>
 <h1>Bag of Scrambled Spells</h1>
 
@@ -59,9 +63,20 @@
 <button type="button" onclick="rollRunes()">Roll your runes.</button>
 
 <!-- TODO: Ideally make this a drag&drop field for runes, that deletes used runes from casting. -->
-<p id="writable"></p>
+<div id="writable"></div><br>
+<div id="s0" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="s1" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="s2" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="s3" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div><br>
+
+<div id="t0" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="t1" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="t2" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="t3" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div><br>
 
 <script>
+var id = 0;
+
 const letterMalus = new Map([
     ["e", 2],
     ["t", 2],
@@ -124,8 +139,16 @@ function rollRunes() {
 
         let quality = rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus;
 
+        let firstRune = document.createElement("div");
+        firstRune.innerHTML = letter + quality;
+        firstRune.draggable = "true";
+        firstRune.ondragstart = "drag(event)";
+        firstRune.id = "drag_item" + id;
+        id += 1;
+        firstRune.classList.add("draggable_item");
+        document.getElementById("s0").appendChild(firstRune);
+
         //TODO: Add a rune for the description.
-        document.getElementById("writable").innerHTML = letter + quality;
     }
 }
 
@@ -135,6 +158,22 @@ function rolld4(n) {
         result += Math.floor(Math.random() * 4) + 1;
     }
     return result;
+}
+
+function allowDrop(e) {
+    e.preventDefault();
+}
+
+function drag(e) {
+    document.getElementById("writable").innerHTML = "dragstart ";
+    e.dataTransfer.setData("id", e.target.id);
+}
+
+function drop(e) {
+    e.preventDefault();
+    let data = e.dataTransfer.getData("id");
+    document.getElementById("writable").innerHTML.concat("dropped " + data);
+    e.target.appendChild(document.getElementById(data));
 }
 </script>
 
