@@ -69,6 +69,7 @@ function rollRunes() {
         firstRune.id = "drag_item" + id;
         id += 1;
         firstRune.classList.add("draggable_item");
+        firstRune.addEventListener("dragstart", (e) => drag(e));
         document.getElementById("s0").appendChild(firstRune);
 
         //TODO: Add a rune for the description.
