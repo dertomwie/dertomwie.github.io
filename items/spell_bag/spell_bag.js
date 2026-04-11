@@ -65,7 +65,6 @@ function rollRunes() {
         let firstRune = document.createElement("div");
         firstRune.innerHTML = letter + quality;
         firstRune.draggable = "true";
-        firstRune.ondragstart = "drag(event)";
         firstRune.id = "drag_item" + id;
         id += 1;
         firstRune.classList.add("draggable_item");
