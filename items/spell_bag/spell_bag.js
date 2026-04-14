@@ -47,7 +47,7 @@ function rollRunes() {
     let draws = document.getElementById("usecount").value;
 
     if (isNaN(draws)) {
-        document.getElementById("writable").innerHTML = "Amount of draws was not a number.";
+        document.getElementById("rollFeedback").innerHTML = "Amount of draws was not a number.";
         return;
     }
 
@@ -56,20 +56,20 @@ function rollRunes() {
     let singleLetter = true;
 
     if (singleLetter) {
-        let chosenIndex = Math.floor(Math.random() * poolSource.length) + 1;
+        let chosenIndex = Math.floor(Math.random() * poolSource.length);
 
         let letter = poolSource[chosenIndex];
 
-        let quality = rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus;
+        let quality = Math.min(Math.max(rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus, -2), 5);
 
         let firstRune = document.createElement("div");
-        firstRune.innerText = letter + quality;
+        firstRune.innerText = letter + " " + quality;
         firstRune.draggable = "true";
         firstRune.id = "drag_item" + id;
         id += 1;
         firstRune.classList.add("draggable_item");
         firstRune.addEventListener("dragstart", (e) => drag(e));
-        document.getElementById("s0").appendChild(firstRune);
+        document.getElementById("inventory").appendChild(firstRune);
 
         //TODO: Add a rune for the description.
     }
@@ -83,18 +83,83 @@ function rolld4(n) {
     return result;
 }
 
+function cast() {
+    let spell = "";
+    let strength = 0;
+    let min = 5;
+    let max = -2;
+    
+    let spellContainer = document.getElementById("spell");
+    
+    for (let element of spellContainer.children) {
+        let arr = element.innerText.split(" ");
+        spell += arr[0];
+        let value = parseInt(arr[1], 10);
+        strength += value;
+        min = Math.min(value, min);
+        max = Math.max(value, max);
+    }
+    
+    spellContainer.replaceChildren();
+
+    document.getElementById("castFeedback").innerText = "spell: " + spell + "\npower: " + strength + "\nmin: " + min + "\nmax: " + max;
+}
+
+function importRunes() {
+    let inventoryContainer = document.getElementById("inventory");
+    
+    let importContainer = document.getElementById("import");
+    
+    let importArray = importContainer.value.split(",");
+    
+    let malformed = "";
+    
+    for (let runeString of importArray) {
+        let arr = runeString.split(" ");
+        
+        if (/[a-z]/.test(arr[0]) && !isNaN(arr[1])) {
+            let createdRune = document.createElement("div");
+            createdRune.innerText = arr[0] + " " + arr[1];
+            createdRune.draggable = "true";
+            createdRune.id = "drag_item" + id;
+            id += 1;
+            createdRune.classList.add("draggable_item");
+            createdRune.addEventListener("dragstart", (e) => drag(e));
+            document.getElementById("inventory").appendChild(createdRune);
+        } else {
+            if (runeString.length > 0) {
+                malformed += runeString + ", ";
+            }
+        }
+    }
+    
+    if (malformed.length > 0) {
+        document.getElementById("importFeedback").innerText = "There were malformed elements: " + malformed;
+    }
+}
+
+function exportRunes() {
+    let exportString = "";
+    
+    let inventoryContainer = document.getElementById("inventory");
+    
+    for (let element of inventoryContainer.children) {
+        exportString += element.innerText + ",";
+    }
+
+    document.getElementById("exportField").innerText = exportString;
+}
+
 function allowDrop(e) {
     e.preventDefault();
 }
 
 function drag(e) {
-    document.getElementById("writable").innerHTML = "dragstart " + e.target.id;
     e.dataTransfer.setData("id", e.target.id);
 }
 
 function drop(e) {
     e.preventDefault();
     let data = e.dataTransfer.getData("id");
-    document.getElementById("writable").innerHTML ="dropped " + data + " into " + e.target.id;
-    e.target.appendChild(target);
+    e.target.appendChild(document.getElementById(data));
 }

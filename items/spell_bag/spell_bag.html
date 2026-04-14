@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="/items/item_styling.css">
-  <script src="/items/spell_bag/spell_bag.js" defer></script>
+  <link rel="stylesheet" href="../item_styling.css">
+  <script src="spell_bag.js" defer></script>
 </head>
 
 <body>
@@ -43,9 +43,9 @@
         <li>If you use at least one rune with negative quality, your spell will likely have unintended side effects.</li>
         <li>Intentional spelling mistakes may be counted as runes with negative quality.</li>
         <li>A spellword of a summed quality of 8+ might have about the effect of a cantrip.</li>
-        <li>A spellword of a summed quality of 16+ should yield an effect as powerfull as a lower level spell a spellcaster of your level might cast.</li>
-        <li>A spellword of a summed quality of 24+ should yield an effect as powerfull as a higher level spell a caster of your level might cast.</li>
-        <li>A spellword of a summed quality of 32+ should yield an effect more powerfull than a spell a caster of your level would be able to cast.</li>
+        <li>A spellword of a summed quality of 16+ should yield an effect as powerful as a lower level spell a spellcaster of your level might cast.</li>
+        <li>A spellword of a summed quality of 24+ should yield an effect as powerful as a higher level spell a caster of your level might cast.</li>
+        <li>A spellword of a summed quality of 32+ should yield an effect more powerful than a spell a caster of your level would be able to cast.</li>
     </ul>
     These values may be adjusted, especially for short adventures.
 </p>
@@ -53,30 +53,43 @@
 <h2>Roll for Runes</h2>
 
 <label for="source">Source of your feature:</label><br>
-<textarea id="source" name="source" rows="2" cols="75">[class]: [subclass?] (e.g. Hunter: Giantslayer)</textarea><br>
+<textarea id="source" name="source" class="input_box">[class]: [subclass?] (e.g. Hunter: Giantslayer)</textarea><br>
 
 <label for="description">Description:</label><br>
-<textarea id="description" name="description" rows="2" cols="75">[name of feature/spell] (e.g. Ancestry of David)</textarea><br>
+<textarea id="description" name="description" class="input_box">[name of feature/spell] (e.g. Ancestry of David)</textarea><br>
 
 <label for="usecount">Amount of draws today:</label><br>
-<textarea id="usecount" name="usecount" rows="1" cols="75">[amount of draws] (e.g. 1, if this is the second draw)</textarea><br>
+<textarea id="usecount" name="usecount" class="input_box">[amount of draws] (e.g. 1, if this is the second draw)</textarea><br>
 
 <button type="button" onclick="rollRunes()">Roll your runes.</button>
+<br>
+<div id="rollFeedback" style="height: 20px";></div>
 
-<!-- TODO: Get this to work -->
-<div id="writable"></div><br>
+<h2>Use your Runes</h2>
 
-<div id="s0" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
-<div id="s1" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
-<div id="s2" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
-<div id="s3" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div><br>
+<div id="inventory" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div><br>
 
-<div id="t0" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
-<div id="t1" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
-<div id="t2" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
-<div id="t3" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div>
+<div id="spell" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag_drop_container"></div><br>
 
-<div id="a"></div>
+<button type="button" onclick="cast()">Cast this spell</button>
+
+<br><br>
+
+<div id="castFeedback"></div>
+
+<h2>Import/Export Runes</h2>
+
+<textarea id="import" name="import" class="input_box">Add your exported runes from last session or import fresh runes in format [&#963 &#964] where &#963 is a letter in the latin alphabet and &#964 is a number from -2 to 5 (separated by a space). Runes are separated by ",".</textarea>
+<br>
+<button type="button" onclick="importRunes()">import</button>
+<br>
+<div id="importFeedback" style="height: 20px";"></div>
+<br>
+<button type="button" onclick="exportRunes()">export</button>
+<br>
+<textarea id="exportField" readonly class="input_box" style="background-color:LightGray"></textarea>
+
+<br><br>
 </body>
 
 <footer>

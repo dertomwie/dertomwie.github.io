@@ -1,14 +1,22 @@
+.input_box {
+  display: flex;      /* Aktiviert Flexbox */
+  flex-wrap: wrap;    /* Erlaubt Zeilenumbrüche */
+  margin: 5px;
+  width: 50%;
+  height: auto;       /* Wichtig: Höhe passt sich dem Inhalt an */
+}
+
 .drag_drop_container {
-    width: 40px;
-    height: 30px;
-    padding: 1px;
-    border: 1px solid;
+  display: flex;      /* Aktiviert Flexbox */
+  flex-wrap: wrap;    /* Erlaubt Zeilenumbrüche */
+  gap: 10px;          /* Abstand zwischen den Elementen */
+  padding: 10px;
+  border: 2px solid #ccc;
+  width: 70%;
+  height: auto;       /* Wichtig: Höhe passt sich dem Inhalt an */
 }
 
 .draggable_item {
-    width: 30px;
-    height: 20px;
-    margin: 2px;
     padding: 2px;
-    border: 1px solid;
+    border: 1px solid #ddd;
 }
