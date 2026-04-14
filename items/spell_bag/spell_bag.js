@@ -53,25 +53,28 @@ function rollRunes() {
 
     let dayBasedMalus = dayMalus(parseInt(draws, 10));
 
-    let singleLetter = true;
+    let singleRuneForSource = true;
 
-    if (singleLetter) {
+    if (singleRuneForSource) {
         let chosenIndex = Math.floor(Math.random() * poolSource.length);
 
         let letter = poolSource[chosenIndex];
 
         let quality = Math.min(Math.max(rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus, -2), 5);
+        
+        createRune(letter, quality);
+    }
 
-        let firstRune = document.createElement("div");
-        firstRune.innerText = letter + " " + quality;
-        firstRune.draggable = "true";
-        firstRune.id = "drag_item" + id;
-        id += 1;
-        firstRune.classList.add("draggable_item");
-        firstRune.addEventListener("dragstart", (e) => drag(e));
-        document.getElementById("inventory").appendChild(firstRune);
+    let singleRuneForDescription = true;
 
-        //TODO: Add a rune for the description.
+    if (singleRuneForDescription) {
+        let chosenIndex = Math.floor(Math.random() * poolDescription.length);
+
+        let letter = poolDescription[chosenIndex];
+
+        let quality = Math.min(Math.max(rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus, -2), 5);
+        
+        createRune(letter, quality);
     }
 }
 
@@ -81,6 +84,17 @@ function rolld4(n) {
         result += Math.floor(Math.random() * 4) + 1;
     }
     return result;
+}
+
+function createRune(letter, quality) {
+        let rune = document.createElement("div");
+        rune.innerText = letter + " " + quality;
+        rune.draggable = "true";
+        rune.id = "rune" + id;
+        id += 1;
+        rune.classList.add("draggable_item");
+        rune.addEventListener("dragstart", (e) => drag(e));
+        document.getElementById("inventory").appendChild(rune);
 }
 
 function cast() {
@@ -118,14 +132,7 @@ function importRunes() {
         let arr = runeString.split(" ");
         
         if (/[a-z]/.test(arr[0]) && !isNaN(arr[1])) {
-            let createdRune = document.createElement("div");
-            createdRune.innerText = arr[0] + " " + arr[1];
-            createdRune.draggable = "true";
-            createdRune.id = "drag_item" + id;
-            id += 1;
-            createdRune.classList.add("draggable_item");
-            createdRune.addEventListener("dragstart", (e) => drag(e));
-            document.getElementById("inventory").appendChild(createdRune);
+            createRune(arr[0], arr[1]);
         } else {
             if (runeString.length > 0) {
                 malformed += runeString + ", ";

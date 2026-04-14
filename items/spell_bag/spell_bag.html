@@ -53,13 +53,13 @@
 <h2>Roll for Runes</h2>
 
 <label for="source">Source of your feature:</label><br>
-<textarea id="source" name="source" class="input_box">[class]: [subclass?] (e.g. Hunter: Giantslayer)</textarea><br>
+<textarea id="source" name="source" class="input_box" placeholder="[class]: [subclass/deity/school of magic] (e.g. Hunter: Giantslayer; Wizard: Evocation)"></textarea><br>
 
 <label for="description">Description:</label><br>
-<textarea id="description" name="description" class="input_box">[name of feature/spell] (e.g. Ancestry of David)</textarea><br>
+<textarea id="description" name="description" class="input_box" placeholder="[name of feature/spell] (e.g. Ancestry of David; Fireball)"></textarea><br>
 
 <label for="usecount">Amount of draws today:</label><br>
-<textarea id="usecount" name="usecount" class="input_box">[amount of draws] (e.g. 1, if this is the second draw)</textarea><br>
+<textarea id="usecount" name="usecount" class="input_box" placeholder="0 if this is the first draw, 1 for the second draw, etc."></textarea><br>
 
 <button type="button" onclick="rollRunes()">Roll your runes.</button>
 <br>
@@ -79,7 +79,7 @@
 
 <h2>Import/Export Runes</h2>
 
-<textarea id="import" name="import" class="input_box">Add your exported runes from last session or import fresh runes in format [&#963 &#964] where &#963 is a letter in the latin alphabet and &#964 is a number from -2 to 5 (separated by a space). Runes are separated by ",".</textarea>
+<textarea id="import" name="import" class="input_box" style="height: 50px;" placeholder="Add your exported runes from last session or import fresh runes in format '([a-z] [(-2)-5],)*'."></textarea>
 <br>
 <button type="button" onclick="importRunes()">import</button>
 <br>
@@ -87,7 +87,7 @@
 <br>
 <button type="button" onclick="exportRunes()">export</button>
 <br>
-<textarea id="exportField" readonly class="input_box" style="background-color:LightGray"></textarea>
+<textarea id="exportField" readonly class="input_box" style="background-color:LightGray; height: 50px;"></textarea>
 
 <br><br>
 </body>
