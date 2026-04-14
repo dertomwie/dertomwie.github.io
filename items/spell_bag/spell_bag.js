@@ -120,6 +120,8 @@ function cast() {
 }
 
 function importRunes() {
+    document.getElementById("importFeedback").innerText = "";
+    
     let inventoryContainer = document.getElementById("inventory");
     
     let importContainer = document.getElementById("import");
@@ -128,14 +130,16 @@ function importRunes() {
     
     let malformed = "";
     
+    let runeRegex = /^\s*([a-z][a-z]?)\s*(-?[0-5])\s*$/;
+    
     for (let runeString of importArray) {
-        let arr = runeString.split(" ");
-        
-        if (/[a-z]/.test(arr[0]) && !isNaN(arr[1])) {
-            createRune(arr[0], arr[1]);
+        if (runeString.length == 0 || !runeRegex.test(runeString)) {
+            malformed += runeString + ", ";
         } else {
-            if (runeString.length > 0) {
-                malformed += runeString + ", ";
+            let parsed = runeString.match(runeRegex);
+        
+            if (/[a-z]/.test(parsed[1]) && !isNaN(parsed[2])) {
+                createRune(parsed[1], parsed[2]);
             }
         }
     }
