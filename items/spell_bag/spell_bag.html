@@ -81,11 +81,13 @@
 
 <textarea id="import" name="import" class="input_box" style="height: 50px;" placeholder="Add your exported runes from last session or import fresh runes in format '([a-z] [(-2)-5],)*'."></textarea>
 <br>
-<button type="button" onclick="importRunes()">import</button>
+<button type="button" onclick="importRunesFromText()">import from textarea</button>
+<button type="button" onclick="importRunesFromCookie()">import from cookie</button>
 <br>
 <div id="importFeedback" style="height: 20px";"></div>
 <br>
-<button type="button" onclick="exportRunes()">export</button>
+<button type="button" onclick="exportRunesToText()">export to textarea below</button>
+<button type="button" onclick="exportRunesToText()">export to cookie</button>
 <br>
 <textarea id="exportField" readonly class="input_box" style="background-color:LightGray; height: 50px;"></textarea>
 

@@ -119,20 +119,14 @@ function cast() {
     document.getElementById("castFeedback").innerText = "spell: " + spell + "\npower: " + strength + "\nmin: " + min + "\nmax: " + max;
 }
 
-function importRunes() {
-    document.getElementById("importFeedback").innerText = "";
-    
-    let inventoryContainer = document.getElementById("inventory");
-    
-    let importContainer = document.getElementById("import");
-    
-    let importArray = importContainer.value.split(",");
+function importRunes(s) {
+    let runeArray = s.split(",");
     
     let malformed = "";
     
     let runeRegex = /^\s*([a-z][a-z]?)\s*(-?[0-5])\s*$/;
     
-    for (let runeString of importArray) {
+    for (let runeString of runeArray) {
         if (runeString.length == 0 || !runeRegex.test(runeString)) {
             malformed += runeString + ", ";
         } else {
@@ -157,8 +151,43 @@ function exportRunes() {
     for (let element of inventoryContainer.children) {
         exportString += element.innerText + ",";
     }
+    
+    return exportString;
+}
 
-    document.getElementById("exportField").innerText = exportString;
+function importRunesFromText() {
+    document.getElementById("importFeedback").innerText = "";
+    
+    let inventoryContainer = document.getElementById("inventory");
+    
+    let importContainer = document.getElementById("import");
+    
+    let importArray = importContainer.value;
+    
+    importRunes(importArray);
+}
+
+function exportRunesToText() {
+    let runes = exportRunes();
+
+    document.getElementById("exportField").innerText = runes;
+}
+
+const cookiename = "runeCookie";
+
+function importRunesFromCookie() {
+    let runeCookie = getCookie(cookiename);
+    if (runeCookie == "") {
+        document.getElementById("importFeedback").innerText = "No cookie was found.";
+    } else {
+        importRunes(runeCookie);
+    }
+}
+
+function exportRunesToCookie() {
+    let runes = exportRunes();
+    
+    setCookie(cookiename, runes, 365);
 }
 
 function allowDrop(e) {
@@ -174,3 +203,27 @@ function drop(e) {
     let data = e.dataTransfer.getData("id");
     e.target.appendChild(document.getElementById(data));
 }
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
