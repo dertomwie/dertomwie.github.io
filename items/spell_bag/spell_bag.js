@@ -44,14 +44,16 @@ function rollRunes() {
     let poolSource = document.getElementById("source").value.toLowerCase().split('').filter(char => /[a-zA-Z]/.test(char));
     let poolDescription = document.getElementById("description").value.toLowerCase().split('').filter(char => /[a-zA-Z]/.test(char));
 
-    let draws = document.getElementById("usecount").value;
+    let draws = parseInt(document.getElementById("usecount").value, 10);
+    
+    document.getElementById("usecount").value = draws + 1;
 
     if (isNaN(draws)) {
         document.getElementById("rollFeedback").innerHTML = "Amount of draws was not a number.";
         return;
     }
 
-    let dayBasedMalus = dayMalus(parseInt(draws, 10));
+    let dayBasedMalus = dayMalus(draws);
 
     let singleRuneForSource = true;
 
@@ -128,7 +130,9 @@ function importRunes(s) {
     
     for (let runeString of runeArray) {
         if (runeString.length == 0 || !runeRegex.test(runeString)) {
-            malformed += runeString + ", ";
+            if (!/^\s*$/.test(runeString)) {
+                malformed += runeString + ", ";
+            }
         } else {
             let parsed = runeString.match(runeRegex);
         
@@ -139,7 +143,7 @@ function importRunes(s) {
     }
     
     if (malformed.length > 0) {
-        document.getElementById("importFeedback").innerText = "There were malformed elements: " + malformed;
+        document.getElementById("importFeedback").innerText = "There were malformed elements: " + malformed.substring(0, malformed.length - 2);
     }
 }
 
