@@ -55,7 +55,7 @@ function rollRunes() {
 
     let dayBasedMalus = dayMalus(draws);
 
-    let singleRuneForSource = true;
+    let singleRuneForSource = Math.random() < 0.8;
 
     if (singleRuneForSource) {
         let chosenIndex = Math.floor(Math.random() * poolSource.length);
@@ -65,9 +65,18 @@ function rollRunes() {
         let quality = Math.min(Math.max(rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus, -2), 5);
         
         createRune(letter, quality);
+    } else {
+        let chosenIndex = Math.floor(Math.random() * (poolSource.length - 1));
+
+        let letter0 = poolSource[chosenIndex];
+        let letter1 = poolSource[chosenIndex+1];
+
+        let quality = Math.min(Math.max(rolld4(2) - 2 - dayBasedMalus, -2), 5);
+        
+        createRune(letter0+letter1, quality);
     }
 
-    let singleRuneForDescription = true;
+    let singleRuneForDescription = Math.random() < 0.8;
 
     if (singleRuneForDescription) {
         let chosenIndex = Math.floor(Math.random() * poolDescription.length);
@@ -77,6 +86,15 @@ function rollRunes() {
         let quality = Math.min(Math.max(rolld4(2) - 3 - letterMalus.get(letter) - dayBasedMalus, -2), 5);
         
         createRune(letter, quality);
+    } else {
+        let chosenIndex = Math.floor(Math.random() * (poolDescription.length - 1));
+
+        let letter0 = poolDescription[chosenIndex];
+        let letter1 = poolDescription[chosenIndex+1];
+
+        let quality = Math.min(Math.max(rolld4(2) - 2 - dayBasedMalus, -2), 5);
+        
+        createRune(letter0+letter1, quality);
     }
 }
 
