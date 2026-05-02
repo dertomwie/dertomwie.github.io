@@ -11,6 +11,9 @@ function generateMaze(n) {
             maze[i][j] = new MazeTile();
         }
     }
+
+    improveMaze(maze);
+
     return maze;
 }
 
@@ -21,26 +24,55 @@ function generateMaze(n) {
  */
 function improveMaze(maze) {
     let n = maze.length;
-    let startingTile = maze[n-1][Math.floor(n/2)];
-    let endTile = maze[0][Math.floor(n/2)];
-    
-    /* let startOk = false;
-    let startTileConnections = getConnections(startingTile.shape);
-    let startTileRotation = startingTile.rotation;
-    for (i=0; i<startTileConnections.length; i++) {
-        if (applyRotation(startTileConnections[i], startTileRotation) == Direction.SOUTH) {
-            startOk = true;
-        }
-    }
-    if (!startOk) {
-        startingTile.shape = TileShape.FULL_CROSS;
-    } */
+    let middle = Math.floor(n / 2);
 
-    let worklist = new Map();
-    worklist.set(startingTile, [Direction.SOUTH]);
+    // we will explore reachable tiles until we find the exit tile.
+    let worklist = new Set();
+    // to this end, we start with the entry tile from the south.
+    worklist.add([n - 1, middle, Direction.SOUTH]);
     let visited = new Map();
-    while (!visited.has(endTile)) {
-        //TODO: forEach e in worklist: if reachable from one of saved directions, add all reachable from that tile to worklist and e to visited
+    while (true) {
+        let change = false;
+
+        // go through tiles on worklist
+        for (e of worklist.values()) {
+            let x = e[1];
+            let y = e[0];
+            let dir = e[2];
+            let tile = maze[y][x];
+            let entryPoints = tile.getEntryPoints();
+
+            // if the tile can be entered from the given direction, mark as visited
+            if (entryPoints.has(dir)) {
+                visited.add([x, y]);
+                if (y == 0 && x == middle) {
+                    return;
+                }
+                change = true;
+                
+                worklist.delete([y, x, dir]);
+
+                // Add all surrounding tiles to worklist.
+                // Each surrounding tile can be reached from this tile by rotating.
+                if (y < n - 1 && !visited.has([x, y + 1])) {
+                    worklist.add([x, y + 1, Direction.NORTH]);
+                }
+                if (x > 0 && !visited.has([x - 1, y])) {
+                    worklist.add([x - 1, y, Direction.EAST]);
+                }
+                if (y > 0 && !visited.has([x, y - 1])) {
+                    worklist.add([x, y - 1, Direction.SOUTH]);
+                }
+                if (x < n - 1 && !visited.has([x + 1, y])) {
+                    worklist.add([x + 1, y, Direction.WEST]);
+                }
+            }
+        }
+        
+        // if nothing changed, rotate all tiles in worklist by 90° clockwise.
+        if (!change) {
+            worklist.forEach((arr) => maze[arr[1]][arr[0]].rotate(1));
+        }
     }
 }
 
@@ -67,6 +99,37 @@ class MazeTile {
         }
 
         this.rotation = Math.floor((Math.random() * 4));
+    }
+
+    /**
+     * Method to retrieve all directions from which this tile can be entered.
+     * 
+     * @returns the correctly rotated entry points of the tile
+     */
+    getEntryPoints() {
+        let connections = getConnections(this.shape);
+
+        let entryPoints = new Set();
+
+        for (d of connections) {
+            entryPoints.add(applyRotation(d, this.rotation));
+        }
+
+        return entryPoints;
+    }
+
+    /**
+     * Rotates this tile clockwise by the given amount.
+     * 
+     * @param {int} n amount of 90° clockwise rotations
+     */
+    rotate(n) {
+        let newRotation = (this.rotation + n) % 4;
+        if (newRotation < 0) {
+            this.rotation = 4 + newRotation;
+        } else {
+            this.rotation = newRotation;
+        }
     }
 }
 
@@ -105,19 +168,19 @@ const TileShape = {
  * Returns the connections of a given unrotated TileShape.
  * 
  * @param {TileShape} tileShape in question
- * @returns connections as an array of `Direction`s.
+ * @returns connections as a set of `Direction`s.
  */
 function getConnections(tileShape) {
     switch (tileShape) {
-        case TileShape.STRAIGHT :
-            return [Direction.SOUTH, Direction.NORTH];
-        case TileShape.TURN :
-            return [Direction.SOUTH, Direction.WEST];
-        case TileShape.T_CROSS :
-            return [Direction.SOUTH, Direction.WEST, Direction.EAST];
-        case TileShape.FULL_CROSS :
-            return [Direction.SOUTH, Direction.WEST, Direction.NORTH, Direction.EAST];
+        case TileShape.STRAIGHT:
+            return new Set([Direction.SOUTH, Direction.NORTH]);
+        case TileShape.TURN:
+            return new Set([Direction.SOUTH, Direction.WEST]);
+        case TileShape.T_CROSS:
+            return new Set([Direction.SOUTH, Direction.WEST, Direction.EAST]);
+        case TileShape.FULL_CROSS:
+            return new Set([Direction.SOUTH, Direction.WEST, Direction.NORTH, Direction.EAST]);
         default:
-            return [Direction.SOUTH];
+            return new Set([Direction.SOUTH]);
     }
 }
