@@ -1,0 +1,27 @@
+.column {
+  display: flex;
+  flex-wrap: wrap;
+  width: 40em;
+  aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
+}
+
+.row {
+  margin: 0px;
+  padding: 0px;
+}
+
+.grid-container {
+  display: grid;
+  /* Drei gleich große Spalten, die sich an der Containerbreite orientieren */
+  grid-template-columns: repeat(3, 33.333%);
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid;
+}
+
+.square {
+  aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid lightgreen;
+}
