@@ -205,17 +205,17 @@ class MazeTile {
     constructor() {
         let tile = Math.random();
 
-        if (tile < 0.2) {
-            //20% chance for a straight
+        if (tile < 0.25) {
+            //25% chance for a straight
             this.shape = TileShape.STRAIGHT;
-        } else if (tile < 0.45) {
-            // 25% chance for a 4-way crossing
+        } else if (tile < 0.4) {
+            // 15% chance for a 4-way crossing
             this.shape = TileShape.FULL_CROSS;
-        } else if (tile < 0.75) {
+        } else if (tile < 0.7) {
             //30% chance for a 3-way crossing
             this.shape = TileShape.T_CROSS;
         } else {
-            //25% chance for a turn
+            //30% chance for a turn
             this.shape = TileShape.TURN;
         }
 
