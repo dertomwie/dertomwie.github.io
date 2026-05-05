@@ -1,11 +1,11 @@
-.column {
+.maze-container {
   display: flex;
   flex-wrap: wrap;
   width: 40em;
   aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
 }
 
-.row {
+.column {
   margin: 0px;
   padding: 0px;
 }
