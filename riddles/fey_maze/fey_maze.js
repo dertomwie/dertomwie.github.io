@@ -235,7 +235,6 @@ outer:
 
                 //if there is a path, take it
                 tile.rotate(rotation);
-                rotateAmount = rotation;
                 playerState.setY(y+1);
                 playerState.setFrom(Direction.NORTH);
                 break outer;
@@ -254,7 +253,6 @@ outer:
 
                 //if there is a path, take it
                 tile.rotate(rotation);
-                rotateAmount = rotation;
                 playerState.setX(x-1);
                 playerState.setFrom(Direction.EAST);
                 break outer;
@@ -273,7 +271,6 @@ outer:
 
                 //if there is a path, take it
                 tile.rotate(rotation);
-                rotateAmount = rotation;
                 playerState.setY(y-1);
                 playerState.setFrom(Direction.SOUTH);
                 break outer;
@@ -292,7 +289,6 @@ outer:
 
                 //if there is a path, take it
                 tile.rotate(rotation);
-                rotateAmount = rotation;
                 playerState.setX(x+1);
                 playerState.setFrom(Direction.WEST);
                 break outer;
@@ -302,7 +298,6 @@ outer:
     }
 
     //apply rotation to this tile and redraw
-    document.getElementById("debug").innerText = "Tried to rotate by: " + rotateAmount;
     drawMaze();
 }
 
