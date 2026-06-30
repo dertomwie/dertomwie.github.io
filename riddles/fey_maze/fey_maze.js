@@ -116,15 +116,14 @@ function drawTile(x, y) {
     colors[8] = "Green";
 
     let tile = maze[y][x];
-    let rEntryPoints = new Set();
-    tile.getEntryPoints().forEach((dir) => rEntryPoints.add(applyRotation(dir, tile.getRotation())));
+    let entryPoints = tile.getEntryPoints();
 
     //use colors based on the tile shape and whether the party is on it
     //these indices correspond to the directions, SOUTH is 7, WEST 3, etc.
     let indices = [7, 3, 1, 5];
     for (let i=0; i<4; i++) {
         //check whether there is a path in this direction
-        if (rEntryPoints.has(i)) {
+        if (entryPoints.has(i)) {
             //if so, determine whether the player came from that path
             if (current && playerState.getFrom() == i) {
                 colors[indices[i]] = "Blue";
@@ -170,9 +169,9 @@ function generateButtons() {
     buttonContainer.innerHTML = "";
     for (let exit of eP) {
         //determine how the player witnesses the exit options:
-        let relative = (4 + applyRotation(exit, rot) - playerState.getFrom()) % 4;
+        let relative = (4 + exit - playerState.getFrom()) % 4;
 
-        let resultingDirection = applyRotation(exit, rot);
+        let resultingDirection = exit;
 
         let button = document.createElement("button");
         button.type = "button";
@@ -205,8 +204,7 @@ function move(direction) {
     let x = playerState.getX();
     let y = playerState.getY();
     let tile = maze[y][x];
-    let rEP = new Set();
-    tile.getEntryPoints().forEach((d) => rEP.add(applyRotation(d, tile.getRotation())));
+    let rEP = tile.getEntryPoints();
 
     if (!rEP.has(direction)) {
         //if there is no path in the given direction, we cannot go there
@@ -230,12 +228,13 @@ outer:
 
                 //if not, check if there is a path
                 consideredTile = maze[y+1][x];
-                consideredTile.getEntryPoints().forEach((d) => entries.add(applyRotation(d, consideredTile.getRotation())));
+                entries = consideredTile.getEntryPoints();
                 if (!entries.has(Direction.NORTH)) {
                     break;
                 }
 
                 //if there is a path, take it
+                tile.rotate(rotation);
                 rotateAmount = rotation;
                 playerState.setY(y+1);
                 playerState.setFrom(Direction.NORTH);
@@ -248,12 +247,13 @@ outer:
 
                 //if not, check if there is a path
                 consideredTile = maze[y][x-1];
-                consideredTile.getEntryPoints().forEach((d) => entries.add(applyRotation(d, consideredTile.getRotation())));
+                entries = consideredTile.getEntryPoints();
                 if (!entries.has(Direction.EAST)) {
                     break;
                 }
 
                 //if there is a path, take it
+                tile.rotate(rotation);
                 rotateAmount = rotation;
                 playerState.setX(x-1);
                 playerState.setFrom(Direction.EAST);
@@ -266,12 +266,13 @@ outer:
 
                 //if not, check if there is a path
                 consideredTile = maze[y-1][x];
-                consideredTile.getEntryPoints().forEach((d) => entries.add(applyRotation(d, consideredTile.getRotation())));
+                entries = consideredTile.getEntryPoints();
                 if (!entries.has(Direction.SOUTH)) {
                     break;
                 }
 
                 //if there is a path, take it
+                tile.rotate(rotation);
                 rotateAmount = rotation;
                 playerState.setY(y-1);
                 playerState.setFrom(Direction.SOUTH);
@@ -284,12 +285,13 @@ outer:
 
                 //if not, check if there is a path
                 consideredTile = maze[y][x+1];
-                consideredTile.getEntryPoints().forEach((d) => entries.add(applyRotation(d, consideredTile.getRotation())));
+                entries = consideredTile.getEntryPoints();
                 if (!entries.has(Direction.WEST)) {
                     break;
                 }
 
                 //if there is a path, take it
+                tile.rotate(rotation);
                 rotateAmount = rotation;
                 playerState.setX(x+1);
                 playerState.setFrom(Direction.WEST);
@@ -300,7 +302,7 @@ outer:
     }
 
     //apply rotation to this tile and redraw
-    tile.rotate(rotateAmount);
+    document.getElementById("debug").innerText = "Tried to rotate by: " + rotateAmount;
     drawMaze();
 }
 
@@ -344,11 +346,10 @@ function improveMaze() {
             let y = e[1];
             let dir = e[2];
             let tile = maze[y][x];
-            let rEntryPoints = new Set();
-            tile.getEntryPoints().forEach((d) => rEntryPoints.add(applyRotation(d, tile.getRotation())));
+            let entryPoints = tile.getEntryPoints();
 
             // if the tile can be entered from the given direction, mark as visited
-            if (rEntryPoints.has(dir)) {
+            if (entryPoints.has(dir)) {
                 visited.add(x + n*y);
                 if (y == 0 && x == middle) {
                     return;

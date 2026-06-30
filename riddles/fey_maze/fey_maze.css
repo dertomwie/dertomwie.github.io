@@ -16,12 +16,12 @@
   grid-template-columns: repeat(3, 33.333%);
   margin: 0px;
   padding: 0px;
-  border: 1px solid;
+  /*border: 1px solid;*/
 }
 
 .square {
   aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
   margin: 0px;
   padding: 0px;
-  border: 1px solid lightgreen;
+  /*border: 1px solid lightgreen;*/
 }
