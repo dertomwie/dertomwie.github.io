@@ -72,9 +72,14 @@ function drawNewMaze() {
  */
 function drawMaze() {
     document.getElementById("maze").innerHTML = "";
+    
+    let innerMazeContainer = document.createElement("div");
+    innerMazeContainer.id = "inner-maze-container";
+    innerMazeContainer.classList.add("maze-container");
 
     let n = maze.length;
 
+    //fill the inner maze container
     for (let x=0; x<n; x++) {
         let htmlColumn = document.createElement("div");
         htmlColumn.id = "column-" + x;
@@ -88,8 +93,71 @@ function drawMaze() {
             htmlColumn.appendChild(htmlTile);
         }
 
-        document.getElementById("maze").appendChild(htmlColumn);
+        innerMazeContainer.appendChild(htmlColumn);
     }
+    
+    //fill the outer maze container
+    //TODO: This should be its own function and not redrawn every time.
+    let outerMazeContainer = document.getElementById("maze");
+    
+    let sideLeft = document.createElement("div");
+    sideLeft.id = "left-maze-wall";
+    sideLeft.classList.add("maze-side-wall");
+    sideLeft.style.width = (1/(n*3+2) * 100) + "%";
+    
+    let sideRight = document.createElement("div");
+    sideRight.id = "right-maze-wall";
+    sideRight.classList.add("maze-side-wall");
+    sideRight.style.width = (1/(n*3+2) * 100) + "%";
+    
+    let middleDiv = document.createElement("div");
+    middleDiv.id = "middle-div";
+    middleDiv.classList.add("middle-div");
+    middleDiv.style.width = ((n*3)/(n*3+2) * 100) + "%";
+    
+    let upperWall = document.createElement("div");
+    upperWall.id = "upper-maze-wall";
+    upperWall.classList.add("maze-wall-container");
+    upperWall.style.height = (1/(n*3+2) * 100) + "%";
+    let wall0 = document.createElement("div");
+    wall0.classList.add("wall-piece");
+    wall0.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    let passage0 = document.createElement("div");
+    passage0.classList.add("passage");
+    passage0.style.width = (1/(n*3) * 100) + "%";
+    let wall1 = document.createElement("div");
+    wall1.classList.add("wall-piece");
+    wall1.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    
+    upperWall.appendChild(wall0);
+    upperWall.appendChild(passage0);
+    upperWall.appendChild(wall1);
+    
+    let lowerWall = document.createElement("div");
+    lowerWall.id = "upper-maze-wall";
+    lowerWall.classList.add("maze-wall-container");
+    lowerWall.style.height = (1/(n*3+2) * 100) + "%";
+    let wall2 = document.createElement("div");
+    wall2.classList.add("wall-piece");
+    wall2.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    let passage1 = document.createElement("div");
+    passage1.classList.add("passage");
+    passage1.style.width = (1/(n*3) * 100) + "%";
+    let wall3 = document.createElement("div");
+    wall3.classList.add("wall-piece");
+    wall3.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    
+    lowerWall.appendChild(wall2);
+    lowerWall.appendChild(passage1);
+    lowerWall.appendChild(wall3);
+    
+    middleDiv.appendChild(upperWall);
+    middleDiv.appendChild(innerMazeContainer);
+    middleDiv.appendChild(lowerWall);
+    
+    outerMazeContainer.appendChild(sideLeft);
+    outerMazeContainer.appendChild(middleDiv);
+    outerMazeContainer.appendChild(sideRight);
 
     generateButtons();
 }
