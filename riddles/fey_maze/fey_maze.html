@@ -10,13 +10,18 @@
 
 <div id="maze" class="outer-maze-container"></div><br>
 
+<button id="fw-button" style="visibility: hidden; width: 10em">Go forwards. (W)</button>
+<button id="l-button" style="visibility: hidden; width: 10em">Turn left. (A)</button>
+<button id="bw-button" style="visibility: hidden; width: 10em">Turn around. (S)</button>
+<button id="r-button" style="visibility: hidden; width: 10em">Turn right. (D)</button>
+<br>
+
 <div id="victory" style="font-size: 24px"></div><br>
 
 <div id="debug"></div>
 
 <textarea id="mazesize" name="mazesize" class="input_box" placeholder="Size of the maze, e.g. 5, 7, 9, ..."></textarea><br>
 <button type="button" onclick="drawNewMaze()">Generate a new maze.</button><br>
-<div id="buttonContainer"></div>
 </body>
 
 <footer>

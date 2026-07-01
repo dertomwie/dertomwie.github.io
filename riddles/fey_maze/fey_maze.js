@@ -13,6 +13,13 @@ let maze;
  */
 let movecounter = 0;
 
+//Add key listeners to maze movement buttons
+addKeyListener("w", document.getElementById("fw-button"));
+addKeyListener("a", document.getElementById("l-button"));
+addKeyListener("s", document.getElementById("bw-button"));
+addKeyListener("d", document.getElementById("r-button"));
+let activeButtons = new Set();
+
 /**
  * Class to represent the state of a player.
  * 
@@ -248,7 +255,7 @@ function drawTile(x, y) {
 }
 
 /**
- * This function generates buttons, so the player(s) can move around.
+ * This function activates buttons, so the player(s) can move around.
  */
 function generateButtons() {
     let x = playerState.getX();
@@ -256,34 +263,53 @@ function generateButtons() {
     let tile = maze[y][x];
     let eP = tile.getEntryPoints();
     let rot = tile.getRotation();
-
-    let buttonContainer = document.getElementById("buttonContainer");
-    buttonContainer.innerHTML = "";
+    
+    //turn all buttons invisible
+    document.getElementById("fw-button").style.visibility = "hidden";
+    document.getElementById("l-button").style.visibility = "hidden";
+    document.getElementById("bw-button").style.visibility = "hidden";
+    document.getElementById("r-button").style.visibility = "hidden";
+    activeButtons = new Set();
     for (let exit of eP) {
         //determine how the player witnesses the exit options:
         let relative = (4 + exit - playerState.getFrom()) % 4;
 
         let resultingDirection = exit;
 
-        let button = document.createElement("button");
-        button.type = "button";
-        button.onclick = () => move(resultingDirection);
+        let button;
         switch (relative) {
             case 0:
-                button.innerText = "Turn around.";
+                button = document.getElementById("bw-button");
+                button.style.visibility = "visible";
                 break;
             case 1:
-                button.innerText = "Turn left.";
+                button = document.getElementById("l-button");
+                button.style.visibility = "visible";
                 break;
             case 2:
-                button.innerText = "Go forwards.";
+                button = document.getElementById("fw-button");
+                button.style.visibility = "visible";
                 break;
             case 3:
-                button.innerText = "Turn right.";
+                button = document.getElementById("r-button");
+                button.style.visibility = "visible";
                 break;
         }
-        buttonContainer.appendChild(button);
+        
+        button.onclick = () => move(resultingDirection);
+        activeButtons.add(button);
     }
+}
+
+/**
+ * This function creates a key listener on the page for a specific button, which is then executed.
+ */
+function addKeyListener(key, button) {
+    document.addEventListener("keyup", (event) => {
+        if (event.key == key && activeButtons.has(button)) {
+            button.click();
+        }
+    });
 }
 
 /**
@@ -348,7 +374,6 @@ outer:
                 playerState.setFrom(Direction.EAST);
                 break outer;
             case Direction.NORTH :
-                document.getElementById("debug").innerText = "Going north, x=" + x + ", y=" + y;
                 //check whether the maze ends in this direction
                 if (y < 1) {
                     if (x == Math.floor(n/2)) {
