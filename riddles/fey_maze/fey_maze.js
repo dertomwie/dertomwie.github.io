@@ -58,7 +58,16 @@ function generatePlayerState(n) {
  * Creates a fresh player state and maze.
  */
 function drawNewMaze() {
-    let n = 7; //TODO: make this adjustable
+    let n = parseInt(document.getElementById("mazesize").value, 10);
+    if(isNaN(n)) {
+        //document.getElementById("mazesize").innerText = "";
+        document.getElementById("debug").innerText = "No number was given for the size of the maze. Insert your favorited size above the generation button.";
+        n = 7;
+    }
+    if(n > 31) {
+        document.getElementById("debug").innerText = "This website doesn't support mazes larger than 31.";
+        n = 31
+    }
 
     generatePlayerState(n);
 
@@ -100,6 +109,8 @@ function drawMaze() {
     //TODO: This should be its own function and not redrawn every time.
     let outerMazeContainer = document.getElementById("maze");
     
+    let offsetForEvenN = ((n+1)%2)*3;
+    
     let sideLeft = document.createElement("div");
     sideLeft.id = "left-maze-wall";
     sideLeft.classList.add("maze-side-wall");
@@ -121,13 +132,13 @@ function drawMaze() {
     upperWall.style.height = (1/(n*3+2) * 100) + "%";
     let wall0 = document.createElement("div");
     wall0.classList.add("wall-piece");
-    wall0.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    wall0.style.width = ((n*3-1+offsetForEvenN)/(n*6) * 100) + "%";
     let passage0 = document.createElement("div");
     passage0.classList.add("passage");
     passage0.style.width = (1/(n*3) * 100) + "%";
     let wall1 = document.createElement("div");
     wall1.classList.add("wall-piece");
-    wall1.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    wall1.style.width = ((n*3-1-offsetForEvenN)/(n*6) * 100) + "%";
     
     upperWall.appendChild(wall0);
     upperWall.appendChild(passage0);
@@ -139,13 +150,13 @@ function drawMaze() {
     lowerWall.style.height = (1/(n*3+2) * 100) + "%";
     let wall2 = document.createElement("div");
     wall2.classList.add("wall-piece");
-    wall2.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    wall2.style.width = ((n*3-1+offsetForEvenN)/(n*6) * 100) + "%";
     let passage1 = document.createElement("div");
     passage1.classList.add("passage");
     passage1.style.width = (1/(n*3) * 100) + "%";
     let wall3 = document.createElement("div");
     wall3.classList.add("wall-piece");
-    wall3.style.width = ((n*3-1)/(n*6) * 100) + "%";
+    wall3.style.width = ((n*3-1-offsetForEvenN)/(n*6) * 100) + "%";
     
     lowerWall.appendChild(wall2);
     lowerWall.appendChild(passage1);

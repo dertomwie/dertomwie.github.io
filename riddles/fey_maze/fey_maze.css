@@ -1,7 +1,7 @@
 .outer-maze-container {
   display: flex;
   flex-wrap: wrap;
-  width: 40em;
+  height: 50em;
   aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
 }
 
