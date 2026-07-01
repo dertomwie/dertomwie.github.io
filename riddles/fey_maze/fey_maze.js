@@ -9,6 +9,11 @@ let playerState;
 let maze;
 
 /**
+ * Counts moves during a maze completion.
+ */
+let movecounter = 0;
+
+/**
  * Class to represent the state of a player.
  * 
  * Saves the horizontal position as x, the vertical position as y and the direction from which the player entered the current tile.
@@ -54,10 +59,18 @@ function generatePlayerState(n) {
     playerState = new PlayerState(Math.floor(n/2), n-1, Direction.SOUTH);
 }
 
+function victory() {
+    document.getElementById("victory").innerText = "You got to the exit of the maze! Bravo!\nYou took " + movecounter + " moves. Pretty swift!";
+}
+
 /**
  * Creates a fresh player state and maze.
  */
 function drawNewMaze() {
+    //potentially clean up from previous victory
+    document.getElementById("victory").innerText = "";
+    movecounter = 0;
+    
     let n = parseInt(document.getElementById("mazesize").value, 10);
     if(isNaN(n)) {
         //document.getElementById("mazesize").innerText = "";
@@ -279,25 +292,24 @@ function generateButtons() {
  * @param {Direction} direction Direction of the taken path.
  */
 function move(direction) {
+    movecounter += 1;
     let n = maze.length;
     let x = playerState.getX();
     let y = playerState.getY();
     let tile = maze[y][x];
     let rEP = tile.getEntryPoints();
 
-    if (!rEP.has(direction)) {
+    if (!rEP.has(direction)) {  //this can never happen
         //if there is no path in the given direction, we cannot go there
         document.getElementById("debug").innerText = "You could not move in direction " + direction + ", since there is no path there.";
         return;
     }
 
-    let rotateAmount = 0;
-
     // find the least positive rotation, such that there is a walkable path in that direction
 outer:
     for (let rotation=1; rotation<5; rotation++) {
         let consideredTile;
-        let entries = new Set();
+        let entries;
         switch (applyRotation(direction, rotation)) {
             case Direction.SOUTH :
                 //check whether the maze ends in this direction
@@ -336,8 +348,16 @@ outer:
                 playerState.setFrom(Direction.EAST);
                 break outer;
             case Direction.NORTH :
+                document.getElementById("debug").innerText = "Going north, x=" + x + ", y=" + y;
                 //check whether the maze ends in this direction
                 if (y < 1) {
+                    if (x == Math.floor(n/2)) {
+                        //win condition
+                        victory();
+                        tile.rotate(rotation);
+                        playerState.setFrom(Direction.NORTH);
+                        break outer;
+                    }
                     break;
                 }
 
@@ -376,7 +396,7 @@ outer:
         }
     }
 
-    //apply rotation to this tile and redraw
+    //redraw
     drawMaze();
 }
 
