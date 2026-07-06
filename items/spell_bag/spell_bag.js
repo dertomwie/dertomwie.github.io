@@ -45,13 +45,12 @@ function rollRunes() {
     let poolDescription = document.getElementById("description").value.toLowerCase().split('').filter(char => /[a-zA-Z]/.test(char));
 
     let draws = parseInt(document.getElementById("usecount").value, 10);
-    
-    document.getElementById("usecount").value = draws + 1;
 
     if (isNaN(draws)) {
         document.getElementById("rollFeedback").innerHTML = "Amount of draws was not a number.";
         return;
     }
+    document.getElementById("usecount").value = draws + 1;
 
     let dayBasedMalus = dayMalus(draws);
 

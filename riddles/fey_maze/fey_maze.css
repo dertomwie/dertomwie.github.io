@@ -1,0 +1,76 @@
+.outer-maze-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 50em;
+  aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
+}
+
+/* In the following the html elements for the inner maze are defined: */
+
+.maze-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
+}
+
+.column {
+  margin: 0px;
+  padding: 0px;
+}
+
+.grid-container {
+  display: grid;
+  /* Drei gleich große Spalten, die sich an der Containerbreite orientieren */
+  grid-template-columns: repeat(3, 33.3333333333%);
+  margin: 0px;
+  padding: 0px;
+  /*border: 1px solid;*/
+}
+
+.square {
+  aspect-ratio: 1 / 1; /* Garantiert die Quadratform */
+  margin: 0px;
+  padding: 0px;
+  /*border: 1px solid lightgreen;*/
+}
+
+/* In the following the html elements for the wrapping of the maze are defined: */
+
+.middle-div {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.maze-side-wall {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  background-color: DarkSlateGray;
+}
+
+.maze-wall-container {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.passage {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  background-color: Gold;
+}
+
+.wall-piece {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  background-color: DarkSlateGray;
+}
+
