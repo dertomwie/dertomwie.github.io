@@ -22,7 +22,7 @@
 .grid-container {
   display: grid;
   /* Drei gleich große Spalten, die sich an der Containerbreite orientieren */
-  grid-template-columns: repeat(3, 33.333%);
+  grid-template-columns: repeat(3, 33.3333333333%);
   margin: 0px;
   padding: 0px;
   /*border: 1px solid;*/
