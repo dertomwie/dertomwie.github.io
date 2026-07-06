@@ -236,7 +236,7 @@ function drawTile(x, y) {
     
     //color middle tile depending on whether the player is on it or not
     if (current) {
-        colors[4] = "Blue";
+        colors[4] = "Pink";
     } else {
         colors[4] = "White";
     }
