@@ -8,6 +8,12 @@
 <body>
 <h1>Fey Maze</h1>
 
+<p>
+This riddle resembles a shifting maze that changes while adventures travel through it.
+The paths between fields are (in contrary to the visual representation) winding and from the middle of one tile to the next takes average adventurers about 3 minutes.
+</p>
+
+<h2>Maze</h2>
 <div id="maze" class="outer-maze-container"></div><br>
 
 <button id="fw-button" style="visibility: hidden; width: 10em">Go forwards. (W)</button>
@@ -22,6 +28,38 @@
 
 <textarea id="mazesize" name="mazesize" class="input_box" placeholder="Size of the maze, e.g. 5, 7, 9, ..."></textarea><br>
 <button type="button" onclick="drawNewMaze()">Generate a new maze.</button><br>
+
+<h2>Hints</h2>
+<div id="hint1" style="visibility:hidden">
+Tiles react when you leave them and turn accordingly.
+</div>
+<button id="visBut1" type="button" onclick="reveal1()">Reveal hint 1.</button>
+<br><br>
+<div id="hint2" style="visibility:hidden">
+Tiles always rotate clockwise to the next available exit.
+</div>
+<button id="visBut2" type="button" onclick="reveal2()">Reveal hint 2.</button>
+<br><br>
+<div id="hint3" style="visibility:hidden">
+Did you try turning around more?
+</div>
+<button id="visBut3" type="button" onclick="reveal3()">Reveal hint 3.</button>
+
+<h2>Advice for running this riddle</h2>
+<button id="visBut3" type="button" onclick="revealA()">Reveal advice.</button>
+<div id="advice" style="visibility:hidden">
+<p>
+For this riddle players should have access to aerial surveillance like a flying familiar or movable sensor.
+</p><p>
+Do not reveal the visual indicator of the maze immediatly, but wait for them to figure out that something is wrong by themselves.
+Until then, describe how they navigate the winding paths and maybe, if they do not figure it out, describe that some tile they previously visited appears familiar to them.
+</p><p>
+If they want to leave marks, take notes. This is one of the easiest ways for the players to figure out what is going on.
+</p><p>
+Ideally you might also add some fey that inhabit certain areas of the maze and talk to travellers, potentially misguiding or helping them.
+</p>
+</div>
+<br><br>
 </body>
 
 <footer>

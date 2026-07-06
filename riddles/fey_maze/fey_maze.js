@@ -621,3 +621,26 @@ function getConnections(tileShape) {
             return new Set([Direction.SOUTH]);
     }
 }
+
+function makeItemVisible(item) {
+    let s = "" + item;
+    let htmlItem = document.getElementById(s);
+    htmlItem.style.visibility = "visible";
+}
+
+function reveal1() {
+    makeItemVisible("hint1");
+}
+
+function reveal2() {
+    makeItemVisible("hint2");
+}
+
+function reveal3() {
+    makeItemVisible("hint3");
+}
+
+function revealA() {
+    makeItemVisible("advice");
+}
+
